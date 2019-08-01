@@ -37,24 +37,24 @@ const findProducts = (req, res) => {
     });
 };
 
-const addToCart = (req, res) => {
-  const productId = req.params.id;
-  const userId = req.params.id;
+const addToCart = async (req, res) => {
+  const productId = req.params.productId;
+  const userId = req.params.userId;
   let productsCart = [];
   let totalPrice = 0;
 
   try {
-    let product = models.product.findById(productId)
-    let cart = models.cart.findOne({
+    let product = await models.product.findByPk(productId)
+    let cart = await models.cart.findOne({
         where: {
-            userId: req.params.id
+            userId: req.params.userId
         }
     })
     if (cart === null ) {
         let newCart = models.cart
             .build({
                 UserId: userId,
-                totalPrice: product.totalPrice,
+                totalPrice: product.price,
                 totalQte: 1
             })
             .save()
@@ -65,13 +65,13 @@ const addToCart = (req, res) => {
             totalQte: 1
         })
         .save()
-        productsCart.push(productCart)
+        await productsCart.push(productCart)
     }
 
     if (cart !== null) {
         totalPrice = cart.totalPrice
 
-        let productCart = models.productCart.findOne({
+        let productCart = await models.productCart.findOne({
             where: {
                 cartId: cart.id,
                 productId: product.id
@@ -92,7 +92,7 @@ const addToCart = (req, res) => {
             })
         }
 
-        productsCart = models.productCart.findAll({
+        productsCart = await models.productCart.findAll({
             where: {
                 cartId: cart.id
             },
@@ -101,7 +101,7 @@ const addToCart = (req, res) => {
             }]
         })
     }
-    return res.send({
+    return await res.send({
         totalPrice: totalPrice,
         productsCart: productsCart
     })
@@ -111,6 +111,7 @@ const addToCart = (req, res) => {
       return res.status(500).send()
   }
 };
+
 
 module.exports = {
   productController,

@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const productCart = sequelize.define('productCart', {
     totalPrice: DataTypes.INTEGER,
-    totalQte: DataTypes.INTEGER
+    totalQte: DataTypes.INTEGER,
+    productid: DataTypes.INTEGER
   }, {});
   productCart.associate = function(models) {
     productCart.belongsTo(models.cart)
