@@ -13,6 +13,7 @@ const getUser = async (req, res) => {
       message: "successfully get user",
       data: result
     });
+    
   } catch (error) {
     res.status(500).send({
       error,
