@@ -20,7 +20,7 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.STRING
       },
-      address: {
+      street: {
         type: Sequelize.STRING
       },
       createdAt: {
