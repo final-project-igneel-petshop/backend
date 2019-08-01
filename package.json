@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodejs ./bin/index.js && sequelize db:create && sequelize db:migrate",
+    "start": "sequelize db:create && sequelize db:migrate && nodejs ./bin/index.js",
     "dev": "nodemon ./bin/index.js"
   },
   "dependencies": {
