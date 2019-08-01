@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     price: DataTypes.INTEGER,
     createdAt: {
-      type: DataTypes.DATA, defaultValue:DataTypes.NOW
+      type: DataTypes.DATE, defaultValue:DataTypes.NOW
     },
-    updateAt: {
+    updatedAt: {
       type: DataTypes.DATE, defaultValue: DataTypes.NOW
     }
   }, {});

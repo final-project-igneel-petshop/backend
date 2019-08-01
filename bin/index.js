@@ -1,3 +1,9 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
 var app = require('../app');
 var debug = require('debug')('final-project:server');
 var http = require('http');

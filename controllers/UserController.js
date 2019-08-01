@@ -14,9 +14,9 @@ const getUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({
-      error,
-        message: "Internal server error"
+      message: "Internal server error"
     });
+    throw new Error(error);
   }
 };
 
@@ -54,9 +54,9 @@ const userRegistration = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({
-      error,
-        message: `Internal server error`
+      message: `Internal server error`
     });
+    throw new Error(error);
   }
 };
 
@@ -95,9 +95,9 @@ const userLogin = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({
-      error,
-        message: `Internal server error`
+      message: `Internal server error`
     });
+    throw new Error(error);
   }
 };
 
@@ -119,9 +119,9 @@ const updateUser = async (req,res) => {
     });
   } catch (error){
     res.status(500).send({
-      error,
-        message: "user update failed"
+      message: "user update failed"
     });
+    throw new Error(error);
   }
 };
 

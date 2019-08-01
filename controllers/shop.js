@@ -1,11 +1,10 @@
 const models = require("../api/db/models");
 
-const productController = (req, res) => {
-  models.product
-    .all()
+const productController = async(req, res) => {
+  models.product.findAll()
     .then(products => {
-      res.render("shop/index", {
-        title: "Express",
+      res.send({
+        title: "All products",
         products: products
       });
     })
@@ -28,7 +27,7 @@ const findProducts = (req, res) => {
     })
     .then(productCart => {
       productsCart = productCart;
-      return res.sender("shop/cart", {
+      return res.send({
         totalPrice: totalPrice,
         productsCart: productsCart
       });
@@ -46,7 +45,7 @@ const addToCart = (req, res) => {
   let totalPrice = 0;
 
   try {
-    let product = models.product.findById()
+    let product = models.product.findById(productId)
     let cart = models.cart.findOne({
         where: {
             userId: req.params.id
@@ -103,7 +102,7 @@ const addToCart = (req, res) => {
             }]
         })
     }
-    return res.sender('shop/cart', {
+    return res.send({
         totalPrice: totalPrice,
         productsCart: productsCart
     })
