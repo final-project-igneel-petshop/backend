@@ -14,8 +14,7 @@ const productController = async(req, res) => {
 };
 
 const findProducts = (req, res) => {
-  models.productCart
-    .findAll({
+  models.productCart.findAll({
       where: {
         cartId: cart.id
       },
