@@ -1,6 +1,7 @@
 const { users } = require("../api/db/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const { JWT_SECRET } = process.env;
 
@@ -22,7 +23,15 @@ const getUser = async (req, res) => {
 
 const userRegistration = async (req, res) => {
   try {
-    const { fullName, email, password, phoneNumber, address, city, zipcode } = req.body;
+    const {
+      fullName,
+      email,
+      password,
+      phoneNumber,
+      address,
+      city,
+      zipcode
+    } = req.body;
 
     const user = await users.findOne({
       where: {
@@ -101,23 +110,23 @@ const userLogin = async (req, res) => {
   }
 };
 
-const updateUser = async (req,res) => {
-  try{
+const updateUser = async (req, res) => {
+  try {
     const user = await users.findByPk(req.params.id);
 
     if (user === null) {
       return res.send({
-        message: 'User not found'
-      })
+        message: "User not found"
+      });
     }
-    const {address, city, zipcode} = req.body;
-    const updatedUser = await user.update({address, city, zipcode});
-    
+    const { street, city, zipcode } = req.body;
+    const updatedUser = await user.update({ street, city, zipcode });
+
     res.send({
       message: "User update success",
       updatedUser
     });
-  } catch (error){
+  } catch (error) {
     res.status(500).send({
       error,
         message: "user update failed"
@@ -125,9 +134,33 @@ const updateUser = async (req,res) => {
   }
 };
 
+const sendEmail = function(req, res) {
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "jaypang8@gmail.com",
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+  let mailOptions = {
+    from: "jaypang8@gmail.com",
+    to: req.body.email,
+    subject: "Sending Email using Node.js",
+    text: "That was easy!"
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      return res.send(error);
+    } else {
+      return res.send("Email sent: " + info.response);
+    }
+  });
+};
+
 module.exports = {
   userRegistration,
   userLogin,
   getUser,
-  updateUser
+  updateUser,
+  sendEmail
 };

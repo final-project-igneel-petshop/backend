@@ -16,24 +16,22 @@ const productController = async(req, res) => {
 const findProducts = (req, res) => {
   models.productCart.findAll({
       where: {
-        cartId: cart.id
+        cartId: req.params.id
       },
-      include: [
-        {
+      include: [{
           model: models.product
-        }
-      ]
+        }]
     })
     .then(productCart => {
-      productsCart = productCart;
+      // productsCart = productCart;
       return res.send({
-        totalPrice: totalPrice,
-        productsCart: productsCart
+        // totalPrice: totalPrice,
+        productCart
       });
     })
     .catch(err => {
       console.log("ERROR: ", err);
-      return res.redirect("/");
+      // return res.redirect("/");
     });
 };
 

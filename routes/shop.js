@@ -5,7 +5,7 @@ const middlewares = require('../middlewares/auth')
 
 router.get("/shop", productController);
 
-router.get("/cart", findProducts);
+router.get("/cart/:id", findProducts);
 
 router.get('/add-to-cart/:userId/:productId', addToCart)
 

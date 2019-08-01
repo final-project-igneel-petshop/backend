@@ -20,8 +20,14 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.STRING
       },
-      address: {
+      street: {
         type: Sequelize.STRING
+      },
+      city: {
+        type: Sequelize.STRING
+      },
+      zipcode: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
