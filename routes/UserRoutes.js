@@ -9,7 +9,7 @@ router.post("/login", userLogin);
 
 router.put("/update-user/:id", updateUser);
 
-router.post("/send-email", sendEmail);
+router.post("/send-email/:email", sendEmail);
 
 module.exports = router;
 

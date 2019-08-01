@@ -144,7 +144,7 @@ const sendEmail = function(req, res) {
   });
   let mailOptions = {
     from: "jaypang8@gmail.com",
-    to: "irfansumapraja@gmail.com",
+    to: req.body.email,
     subject: "Sending Email using Node.js",
     text: "That was easy!"
   };
