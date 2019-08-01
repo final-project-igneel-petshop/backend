@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "sequelize db:create && sequelize db:migrate && nodejs ./bin/index.js",
+    "start": "sequelize db:create && sequelize db:migrate:undo:all && sequelize db:migrate && nodejs ./bin/index.js",
     "dev": "nodemon ./bin/index.js"
+  },
+  "engines": {
+    "node":"12.x"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
