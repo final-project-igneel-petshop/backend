@@ -13,6 +13,7 @@ const getUser = async (req, res) => {
       message: "successfully get user",
       data: result
     });
+    
   } catch (error) {
     res.status(500).send({
       error,
@@ -28,7 +29,7 @@ const userRegistration = async (req, res) => {
       email,
       password,
       phoneNumber,
-      address,
+      street,
       city,
       zipcode
     } = req.body;
@@ -52,7 +53,7 @@ const userRegistration = async (req, res) => {
       email,
       password: hash,
       phoneNumber,
-      address,
+      street,
       city,
       zipcode
     });

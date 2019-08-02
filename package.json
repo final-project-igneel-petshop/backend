@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodejs ./bin/index.js",
+    "start": "sequelize db:migrate:undo:all && sequelize db:migrate && node ./bin/index.js",
     "dev": "nodemon ./bin/index.js"
   },
   "dependencies": {
@@ -22,9 +22,13 @@
     "mysql2": "^1.6.5",
     "nodemailer": "^6.3.0",
     "sequelize": "^5.11.0",
+    "sequelize-cli": "^5.5.0",
     "static-favicon": "~1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node":"12.x"
   }
 }
