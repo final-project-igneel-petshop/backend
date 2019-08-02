@@ -11,6 +11,8 @@ module.exports = {
           password: "password",
           phoneNumber: "081314829525",
           street: "Jl. Seruni IV no 5",
+          city: "Jakarta",
+          zipcode: 13460,
           createdAt: new Date(),
           updatedAt: new Date()
         }
