@@ -29,7 +29,7 @@ const userRegistration = async (req, res) => {
       email,
       password,
       phoneNumber,
-      address,
+      street,
       city,
       zipcode
     } = req.body;
@@ -53,7 +53,7 @@ const userRegistration = async (req, res) => {
       email,
       password: hash,
       phoneNumber,
-      address,
+      street,
       city,
       zipcode
     });
