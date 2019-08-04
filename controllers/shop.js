@@ -13,6 +13,22 @@ const productController = async(req, res) => {
     });
 };
 
+const displayOneProduct = (req, res) => {
+  models.product.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(product => {
+    res.send({
+      product: product
+    })
+  })
+  .catch(err => {
+    console.log(err.message)
+  })
+}
+ 
 const findProducts = (req, res) => {
   models.productCart.findAll({
       where: {
@@ -23,9 +39,9 @@ const findProducts = (req, res) => {
         }]
     })
     .then(productCart => {
-      // productsCart = productCart;
+      productsCart = productCart;
       return res.send({
-        // totalPrice: totalPrice,
+        totalPrice: totalPrice,
         productCart
       });
     })
@@ -114,5 +130,6 @@ const addToCart = async (req, res) => {
 module.exports = {
   productController,
   findProducts,
-  addToCart
+  addToCart,
+  displayOneProduct
 };
