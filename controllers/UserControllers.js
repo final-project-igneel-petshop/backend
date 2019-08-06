@@ -77,14 +77,15 @@ const userLogin = async (req, res) => {
       }
     });
 
-    console.log(user);
-
     if (user === null) {
       return res.status(401).send({
         message: "user not found"
       });
     } else {
-      bcrypt.compareSync(req.body.password, user.password, (err, result) => {
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
+        if(err){
+          console.log(err);         
+        }
         if (!result) {
           return res.status(401).send({
             message: `Password doesn't match`
