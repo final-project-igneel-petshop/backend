@@ -76,29 +76,33 @@ const userLogin = async (req, res) => {
         email: req.body.email
       }
     });
+
+    console.log(user);
+
     if (user === null) {
       return res.status(401).send({
         message: "user not found"
       });
-    }
-    const compare = bcrypt.compareSync(req.body.password, user.password);
-
-    if (!compare) {
-      return res.status(401).send({
-        message: `Password doesn't match`
-      });
     } else {
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email
-        },
-        JWT_SECRET
-      );
-      return res.send({
-        message: "successfully logged in",
-        data: {
-          token
+      bcrypt.compareSync(req.body.password, user.password, (err, result) => {
+        if (!result) {
+          return res.status(401).send({
+            message: `Password doesn't match`
+          });
+        } else {
+          const token = jwt.sign(
+            {
+              id: user.id,
+              email: user.email
+            },
+            JWT_SECRET
+          );
+          return res.send({
+            message: "successfully logged in",
+            data: {
+              token
+            }
+          });
         }
       });
     }
