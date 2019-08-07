@@ -2,6 +2,8 @@ const { users } = require("../api/db/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const handlebars = require("handlebars");
 
 const { JWT_SECRET } = process.env;
 
@@ -83,8 +85,8 @@ const userLogin = async (req, res) => {
       });
     } else {
       bcrypt.compare(req.body.password, user.password, (err, result) => {
-        if(err){
-          console.log(err);         
+        if (err) {
+          console.log(err);
         }
         if (!result) {
           return res.status(401).send({
@@ -139,7 +141,18 @@ const updateUser = async (req, res) => {
   }
 };
 
-const sendEmail = function(req, res) {
+const readHTMLFile = function(path, callback) {
+  fs.readFile(path, { encoding: "utf-8" }, function(err, html) {
+    if (err) {
+      throw err;
+      callback(err);
+    } else {
+      callback(null, html);
+    }
+  });
+};
+
+const sendEmail = async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -147,19 +160,26 @@ const sendEmail = function(req, res) {
       pass: process.env.EMAIL_PASSWORD
     }
   });
-  let mailOptions = {
-    from: "jaypang8@gmail.com",
-    to: req.body.email,
-    subject: "Your Order",
-    text: "That was easy!"
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      return res.send(error);
-    } else {
-      return res.send("Email sent: " + info.response);
+  readHTMLFile(__dirname + '/../emailTemplate/email.html', function (err,html){
+    let template = handlebars.compile(html)
+    let replacements = {
+      id: 1
     }
-  });
+    let htmlToSend = template(replacements)
+    let mailOptions = {
+      from: "jaypang8@gmail.com",
+      to: req.body.email,
+      subject: "Your Order",
+      html: htmlToSend
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        return res.send(error);
+      } else {
+        return res.send("Email sent: " + info.response);
+      }
+    });
+  })
 };
 
 module.exports = {
