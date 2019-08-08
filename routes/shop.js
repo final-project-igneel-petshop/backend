@@ -11,7 +11,7 @@ const {
 } = require("../controllers").Shop;
 
 router.get("/shop", productController);
-router.get("dog-shop", dogProductController)
+router.get("/dog-shop", dogProductController)
 router.get("/find/:id", displayOneProduct);
 router.post("/cart/:id", findProducts);
 
