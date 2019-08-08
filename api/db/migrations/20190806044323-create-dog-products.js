@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('carts', {
+    return queryInterface.createTable('dogProducts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,39 +14,15 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
+      qte: {
+        type: Sequelize.INTEGER
+      },
+      description: {
+        type: Sequelize.STRING
+      },
       price: {
         type: Sequelize.INTEGER
       },
-      totalPrice: {
-        type: Sequelize.INTEGER
-      },
-      totalQte: {
-        type: Sequelize.INTEGER
-      },
-      fullName: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING
-      }, 
-      street: {
-        type: Sequelize.STRING
-      },
-      city: {
-        type: Sequelize.STRING
-      },
-      zipCode: {
-        type: Sequelize.INTEGER
-      },
-      productId: {
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        type: Sequelize.INTEGER
-      }, 
-      catProductId: {
-        type: Sequelize.INTEGER
-      }, 
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -54,10 +30,13 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      userId: {
+        type: Sequelize.INTEGER
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('carts');
+    return queryInterface.dropTable('dogProducts');
   }
 };

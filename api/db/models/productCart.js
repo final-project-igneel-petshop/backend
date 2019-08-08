@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   productCart.associate = function(models) {
     productCart.belongsTo(models.cart)
-    productCart.belongsTo(models.product)
+    productCart.belongsTo(models.catProducts)
   };
   return productCart;
 };

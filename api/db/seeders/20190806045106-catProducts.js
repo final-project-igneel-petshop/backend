@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("products", [
+    return queryInterface.bulkInsert("catProducts", [
       {
         imagePath: "/images/aixia.jpg",
         title: "Aixia – Skipjack Tuna with Chicken Fillet – BCM-8",
@@ -87,6 +87,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("products", null, {});
+    return queryInterface.bulkDelete("catProducts", null, {});
   }
 };
