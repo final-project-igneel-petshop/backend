@@ -6,10 +6,12 @@ const {
   addToCart,
   displayOneProduct,
   checkOut,
-  finalCheckout
+  finalCheckout,
+  dogProductController
 } = require("../controllers").Shop;
 
 router.get("/shop", productController);
+router.get("dog-shop", dogProductController)
 router.get("/find/:id", displayOneProduct);
 router.post("/cart/:id", findProducts);
 

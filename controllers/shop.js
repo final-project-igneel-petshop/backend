@@ -14,6 +14,20 @@ const productController = async (req, res) => {
     });
 };
 
+const dogProductController = async (req, res) => {
+  models.dogProducts
+    .findAll()
+    .then(dogProducts => {
+      res.send({
+        title: "All products",
+        products: dogProducts
+      });
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+};
+
 const displayOneProduct = (req, res) => {
   models.catProducts
     .findOne({
@@ -195,5 +209,6 @@ module.exports = {
   addToCart,
   displayOneProduct,
   checkOut,
-  finalCheckout
+  finalCheckout,
+  dogProductController
 };
