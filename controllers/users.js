@@ -2,6 +2,8 @@ const { users } = require("../api/db/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const handlebars = require("handlebars");
 
 const { JWT_SECRET } = process.env;
 
@@ -13,11 +15,10 @@ const getUser = async (req, res) => {
       message: "successfully get user",
       data: result
     });
-    
   } catch (error) {
     res.status(500).send({
       error,
-        message: "Internal server error"
+      message: "Internal server error"
     });
   }
 };
@@ -65,7 +66,7 @@ const userRegistration = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       error,
-        message: `Internal server error`
+      message: `Internal server error`
     });
   }
 };
@@ -116,7 +117,6 @@ const userLogin = async (req, res) => {
   }
 };
 
-
 const updateUser = async (req, res) => {
   try {
     const user = await users.findByPk(req.params.id);
@@ -136,12 +136,23 @@ const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       error,
-        message: "user update failed"
+      message: "user update failed"
     });
   }
 };
 
-const sendEmail = function(req, res) {
+const readHTMLFile = function(path, callback) {
+  fs.readFile(path, { encoding: "utf-8" }, function(err, html) {
+    if (err) {
+      throw err;
+      callback(err);
+    } else {
+      callback(null, html);
+    }
+  });
+};
+
+const sendEmail = async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -149,19 +160,26 @@ const sendEmail = function(req, res) {
       pass: process.env.EMAIL_PASSWORD
     }
   });
-  let mailOptions = {
-    from: "jaypang8@gmail.com",
-    to: req.body.email,
-    subject: "Sending Email using Node.js",
-    text: "That was easy!"
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      return res.send(error);
-    } else {
-      return res.send("Email sent: " + info.response);
+  readHTMLFile(__dirname + '/../emailTemplate/email.html', function (err,html){
+    let template = handlebars.compile(html)
+    let replacements = {
+      id: 1
     }
-  });
+    let htmlToSend = template(replacements)
+    let mailOptions = {
+      from: "jaypang8@gmail.com",
+      to: req.body.email,
+      subject: "Your Order",
+      html: htmlToSend
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        return res.send(error);
+      } else {
+        return res.send("Email sent: " + info.response);
+      }
+    });
+  })
 };
 
 module.exports = {
