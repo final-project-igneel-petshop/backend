@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     imagePath: DataTypes.STRING,
     title: DataTypes.STRING,
     qte: DataTypes.INTEGER,
-    description: DataTypes.STRING,
+    description: DataTypes.STRING(2555),
     price: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {});
   dogProducts.associate = function(models) {
-    // associations can be defined here
+    dogProducts.hasMany(models.cart)
   };
   return dogProducts;
 };

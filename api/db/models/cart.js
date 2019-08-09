@@ -14,14 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       city: DataTypes.STRING,
       zipCode: DataTypes.INTEGER,
       productId: DataTypes.INTEGER,
+      status: DataTypes.BOOLEAN,
       userId: DataTypes.INTEGER,
-      catProductId: DataTypes.INTEGER
+      catProductId: DataTypes.INTEGER,
+      dogProductId: DataTypes.INTEGER,
     },
     {}
   );
   cart.associate = function(models) {
     cart.belongsTo(models.users);
     cart.belongsTo(models.catProducts)
+    cart.belongsTo(models.dogProducts)
   };
   return cart;
 };
