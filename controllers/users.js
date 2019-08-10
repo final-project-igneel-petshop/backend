@@ -156,7 +156,7 @@ const sendEmail = async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "jaypang8@gmail.com",
+      user: "invoices.bowwowmeow@gmail.com",
       pass: process.env.EMAIL_PASSWORD
     }
   });
@@ -168,7 +168,13 @@ const sendEmail = async (req, res) => {
         where: {
           userId: req.body.userId,
           status: false
-        }
+        },
+        include: [
+          {
+            model: users,
+            model: catProducts
+          }
+        ]
       });
       // const product = await catProducts.findOne({
       //   where: {
@@ -176,33 +182,86 @@ const sendEmail = async (req, res) => {
       //   }
       // });
 
-      console.log(carts[0].imagePath);
+      // console.log(
+      //   Array.from(carts).forEach(item => {
+      //     item;
+      //   })
+      // );
+      // let userDetails = {
+      //   id: Math.random(),
+      //   date: new Date(),
+      //   totalPrice: carts[0].totalPrice,
+      //   fullName: carts[0].fullName,
+      //   street: carts[0].street,
+      //   city: carts[0].city,
+      //   zipcode: carts[0].zipcode,
+      //   totalQty: carts[0].totalQte + carts[1].totalQte + carts[2].totalQte
+      // };
+
+      // let replacements;
+
+      // carts.forEach(item => {
+      //   replacements = {
+      //     imagePath1: item.imagePath,
+      //     title1: item.title,
+      //     qte1: item.totalQte,
+      //     price1: item.price,
+      //     imagePath2: item.imagePath,
+      //     title2: item.title,
+      //     qte2: item.totalQte,
+      //     price2: item.price,
+      //     imagePath3: item.imagePath,
+      //     title3: item.title,
+      //     qte3: item.totalQte,
+      //     price3: item.price
+      //   };
+      // });
+
+      let months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      let date = new Date();
+      let today = date.getDate();
+      let month = date.getMonth();
+      let year = date.getFullYear();
 
       let replacements = {
-        id: Math.random(),
-        date: new Date(),
+        id: Math.ceil(Math.random() * 10000),
+        date: `${today} - ${months[month]} - ${year}`,
         totalPrice: carts[0].totalPrice,
         fullName: carts[0].fullName,
         street: carts[0].street,
         city: carts[0].city,
         zipcode: carts[0].zipcode,
-        imagePath1: carts[0].imagepath,
+        imagePath1: carts[0].imagePath,
         title1: carts[0].title,
         qte1: carts[0].totalQte,
         price1: carts[0].price,
-        imagePath2: carts[1].imagepath,
+        imagePath2: carts[1].imagePath,
         title2: carts[1].title,
         qte2: carts[1].totalQte,
         price2: carts[1].price,
-        imagePath3: carts[2].imagepath,
+        imagePath3: carts[2].imagePath,
         title3: carts[2].title,
         qte3: carts[2].totalQte,
         price3: carts[2].price,
         totalQty: carts[0].totalQte + carts[1].totalQte + carts[2].totalQte
       };
+      // let newReplacements = Object.assign({}, userDetails, replacements);
       let htmlToSend = template(replacements);
       let mailOptions = {
-        from: "jaypang8@gmail.com",
+        from: "invoices.bowwowmeow@gmail.com",
         to: req.body.email,
         subject: "Thank you for your order",
         html: htmlToSend
