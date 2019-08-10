@@ -160,6 +160,7 @@ const sendEmail = async (req, res) => {
       pass: process.env.EMAIL_PASSWORD
     }
   });
+  
   readHTMLFile(
     __dirname + "/../emailTemplate/email.html",
     async (err, html) => {
